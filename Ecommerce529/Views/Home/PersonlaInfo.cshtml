@@ -1,0 +1,11 @@
+﻿@model PersonVM
+<ul>
+    @foreach (var item in Model.Persons)
+    {
+        <li>Id: @item.Id</li>
+        <li>Name : @item.Name</li>
+        <li>Address : @item.Address</li>
+        <br/>
+    }
+    <h2> the count is : @Model.Count</h2>
+</ul>

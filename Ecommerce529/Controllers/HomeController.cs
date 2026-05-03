@@ -1,14 +1,27 @@
+using Ecommerce529.DataAccess;
 using Ecommerce529.Models;
+using Ecommerce529.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace Ecommerce529.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ApplicationDbContext _context ;
+        public HomeController ()
+        {
+            _context = new ApplicationDbContext();
+        }
         public IActionResult Index()
         {
-            return View();
+            var products = _context.Products.Include(p=>p.Category).AsQueryable();
+            // filter 
+
+            // pagination 
+            products = products.Skip(0).Take(8); 
+            return View(products.AsEnumerable());
         }
 
         public IActionResult Privacy()
@@ -20,6 +33,25 @@ namespace Ecommerce529.Controllers
         {
             return View(); 
         }
+        public ViewResult PersonlaInfo(int id ) 
+        {
+            var persons = new List<Person>()
+            {
+                new Person(){Id= 1  , Name = "Ali" , Salary = 1000  , Address= "Cairo" } ,
+                new Person(){Id= 2  , Name = "Sayed", Salary = 2000 , Address= "Giza" } ,
+                new Person(){Id= 3  , Name = "mohamed", Salary = 3000 , Address= "Alex" } ,
+            };
+            //persons = persons.Where(p=> p.Salary >1000).ToList(); 
+            persons = persons.Where(p=> p.Id == id).ToList(); 
+             var count = persons.Count; 
+            return View(new PersonVM()
+            {
+                Persons = persons  , 
+                Count   = count
+            });
+        }
+
+
 
 
 

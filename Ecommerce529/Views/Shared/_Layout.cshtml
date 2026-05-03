@@ -362,6 +362,8 @@
     
     <!-- Template Javascript -->
     <script src="~/js/customer/main.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 
 </html>
