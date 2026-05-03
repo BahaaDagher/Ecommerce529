@@ -24,10 +24,29 @@ namespace Ecommerce529.Controllers
             return View(products.AsEnumerable());
         }
 
-        public IActionResult Privacy()
+
+
+        public IActionResult ProductDetails(int id )
         {
-            return View();
+            var products = _context.Products.Include(p=>p.Category).AsQueryable();
+            var product = products.FirstOrDefault(p=>p.Id == id );
+
+            if (product is null )
+            {
+                return NotFound();
+            }
+
+            var relatedProducts = _context.Products.Where(p=>p.CategoryId == product.CategoryId && p.Id != id)
+                                        .Skip(0)
+                                        .Take(4); 
+
+            return View(new ProductWithRelatedVM()
+            {
+                Product = product , 
+                RelatedProducts = relatedProducts.AsEnumerable() 
+            }); 
         }
+
 
         public ViewResult Welcome()
         {
@@ -49,6 +68,10 @@ namespace Ecommerce529.Controllers
                 Persons = persons  , 
                 Count   = count
             });
+        }
+        public IActionResult Privacy()
+        {
+            return View();
         }
 
 
