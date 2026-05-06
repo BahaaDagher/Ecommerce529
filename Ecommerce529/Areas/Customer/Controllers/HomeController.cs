@@ -1,12 +1,10 @@
-using Ecommerce529.DataAccess;
-using Ecommerce529.Models;
-using Ecommerce529.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
-namespace Ecommerce529.Controllers
+namespace Ecommerce529.Areas.Customer.Controllers
 {
+    [Area(CD.CUSTOMER_AREA)]
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _context ;
