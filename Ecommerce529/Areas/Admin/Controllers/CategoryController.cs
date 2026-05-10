@@ -24,8 +24,8 @@ namespace Ecommerce529.Areas.Admin.Controllers
             }
 
             // pagination 
-            int totalPages = (int)Math.Ceiling(categories.Count() / 3.0); 
-            categories = categories.Skip((page-1) * 3).Take(3); 
+            int totalPages = (int)Math.Ceiling(categories.Count() / 5.0); 
+            categories = categories.Skip((page-1) * 5).Take(5); 
             return View(new CategoryVM()
             {
                 Categories = categories.AsEnumerable()  , 
