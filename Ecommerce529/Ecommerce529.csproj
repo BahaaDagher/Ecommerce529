@@ -23,6 +23,7 @@
   <ItemGroup>
     <Folder Include="Areas\Identity\Controllers\" />
     <Folder Include="Areas\Identity\Views\" />
+    <Folder Include="wwwroot\images\brand_images\" />
   </ItemGroup>
 
 </Project>
