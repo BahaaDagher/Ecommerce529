@@ -30,15 +30,49 @@
         </div>
         <div class="col-4 mb-3">
             <label for="CategoryId" class="form-label">Category Id</label>
-            <input class="form-control" name="CategoryId" value="@ViewBag.CategoryId" />
+            <select name="CategoryId" class="form-control">
+                <option>select category</option>
+                @if (ViewData["Categories"] is IEnumerable<Category> categories)
+                {
+                    @foreach (var item in categories)
+                    {
+                            if (item.Id == ViewBag.CategoryId)
+                            {
+                                <option value="@item.Id" selected>@item.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        }
+                }
+                
+            </select>
         </div>
          <div class="col-4 mb-3">
             <label for="BrandId" class="form-label">Brand Id</label>
-            <input class="form-control" name="BrandId" value="@ViewBag.BrandId" />
+            <select name="BrandId" class="form-control">
+                <option>select brand</option>
+                @if (ViewData["Brands"] is IEnumerable<Brand> brands)
+                {
+                    @foreach (var item in brands)
+                    {
+                        if (item.Id == ViewBag.BrandId)
+                        {
+                            <option value="@item.Id" selected>@item.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    }
+                }
+                
+            </select>
         </div>
         <div class="col-4 mb-3 d-flex justify-content-center align-items-center">
             <label for="name" class="form-label mx-3">IsLowQuantity</label>
-            <input type="checkbox" class="" name="IsLowQuantity" value="True" />
+            <input type="checkbox" class="" name="IsLowQuantity" value="True" @(ViewBag.IsLowQuantity != null&& ViewBag.IsLowQuantity ? "checked" : "") />
         </div>
        
         <button type="submit" class="btn btn-dark col-2">Filter</button>

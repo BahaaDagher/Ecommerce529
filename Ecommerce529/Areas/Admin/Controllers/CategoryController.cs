@@ -41,8 +41,10 @@ namespace Ecommerce529.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(Category category)
         {
-            _context.Categories.Add(category);
-            _context.SaveChanges(); 
+            _context.Categories.Add(category);  
+            _context.SaveChanges();
+            //Response.Cookies.Append("Success_Notification" , "Category Careted Successfully");
+            TempData["Success_Notification"] = "Category Careted Successfully";  
             return RedirectToAction(nameof(Index));
         }
         [HttpGet]

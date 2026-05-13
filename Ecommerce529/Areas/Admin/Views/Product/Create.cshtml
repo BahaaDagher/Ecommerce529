@@ -1,4 +1,5 @@
-﻿<div class="container">
+﻿@model CreateUpdateProductVM
+<div class="container">
     <div class="row mb-3 align-items-center my-3">
         <div class="col-md-6">
             <h2 class="display-6">Create new Product</h2>
@@ -17,12 +18,58 @@
                     <input type="file" class="form-control" name="ImageFile" accept="image/*" />
                 </div>
                 <div class="mb-3">
+                    <label for="name" class="form-label">Sub Images</label>
+                    <input type="file" class="form-control" name="SubImageFiles" accept="image/*" multiple />
+                </div>
+                <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
                     <div class="form-floating">
                         <textarea name="Description" class="form-control" placeholder="Leave a description here" style="height: 100px"></textarea>
                         <label for="description">You Description Here...</label>
-
                     </div>
+                </div>
+                <div class="mb-3">
+                    <label for="Price" class="form-label">Price</label>
+                    <input class="form-control" name="Price" type="number"/>
+                </div>
+                <div class="mb-3">
+                    <label for="Discount" class="form-label">Discount</label>
+                    <input class="form-control" name="Discount" type="number" />
+                </div>
+                <div class="mb-3">
+                    <label for="Quantity" class="form-label">Quantity</label>
+                    <input class="form-control" name="Quantity" type="number" />
+                </div>
+                <div class="mb-3">
+                    <label for="Color" class="form-label">Color</label>
+
+                    <div id="colorContainer">
+                        <div class="mb-2 d-flex align-item-center">
+                            <input type="color" class="form-control form-control-color" name="Colors">
+                        </div>
+                    </div>
+
+                    <button type="button" id="addButtonColor" class="btn btn-outline-primary">+ Add New Color</button>
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="CategoryId class="form-label">Category</label>
+                    <select name="CategoryId" class="form-select">
+                    @foreach(var item in Model.Categories)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="BrandId class="form-label">Brand</label>
+                    <select name="BrandId" class="form-select">
+                        @foreach (var item in Model.Brands)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
                 </div>
                 <div class="mb-3">
                     <label for="status" class="form-label">Status</label>
@@ -30,7 +77,6 @@
                         <option value="True" selected>Active</option>
                         <option value="False" >InActive</option>
                     </select>
-
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
@@ -38,3 +84,25 @@
     </div>
 </div>
 
+<script>
+    const conateiner = document.getElementById('colorContainer');
+    const addBtn = document.getElementById('addButtonColor');
+
+    addBtn.addEventListener('click', () => {
+        var colorRow = document.createElement('div');
+
+        colorRow.className = 'mb-2 d-flex align-item-center gap-1'
+        colorRow.innerHTML = `
+            <input type="color" class="form-control form-control-color" name="Colors">
+            <button type="Button" class="btn btn-danger btn-sm removeColor">x</button>
+        `;
+
+        conateiner.appendChild(colorRow);
+    });
+
+    conateiner.addEventListener('click', (e) => {
+        if(e.target.classList.contains('removeColor')) {
+            e.target.parentElement.remove();
+        }
+    })
+</script>
