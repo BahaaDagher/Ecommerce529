@@ -12,6 +12,7 @@ namespace Ecommerce529.Models
         [MinMaxLengthAttribute(3 , 20)]
         public string Name { get; set; } = string.Empty; 
         public string? Description { get; set; }
+        [Required]
         public bool Status { get; set; }
 
     }
