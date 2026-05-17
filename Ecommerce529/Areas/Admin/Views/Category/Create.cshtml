@@ -1,4 +1,5 @@
-﻿<div class="container">
+﻿@model Category
+<div class="container">
     <div class="row mb-3 align-items-center my-3">
         <div class="col-md-6">
             <h2 class="display-6">Create new Category</h2>
@@ -10,22 +11,35 @@
             <form method="post">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input class="form-control" name="Name"/>
+                    <input class="form-control" asp-for="Name"/>
+                    <span class="text-danger" asp-validation-for="Name"></span>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
                     <div class="form-floating">
-                        <textarea name="Description" class="form-control" placeholder="Leave a description here" style="height: 100px"></textarea>
+                        <textarea asp-for="Description"  name="Description" class="form-control" placeholder="Leave a description here" style="height: 100px">@Model.Name</textarea>
                         <label for="description">You Description Here...</label>
 
                     </div>
+                    <span class="text-danger" asp-validation-for="Description"></span>
+
                 </div>
                 <div class="mb-3">
                     <label for="status" class="form-label">Status</label>
-                    <select name="Status" class="form-select">
-                        <option value="True" selected>Active</option>
-                        <option value="False" >InActive</option>
+                    <select name="Status" class="form-select" asp-for="Status" >
+                        @if (Model.Status)
+                        {
+                            <option value="True" selected>Active</option>
+                            <option value="False">InActive</option>
+                        }
+                        else
+                        {
+                            <option value="True" >Active</option>
+                            <option value="False" selected>InActive</option>
+                        }
+
                     </select>
+                    <span class="text-danger" asp-validation-for="Status"></span>
 
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -33,4 +47,7 @@
         </div>
     </div>
 </div>
-
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+}

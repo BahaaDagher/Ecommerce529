@@ -39,14 +39,25 @@ namespace Ecommerce529.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View(); 
+            return View(new CreateBrandVM()); 
         }
         [HttpPost]
-        public IActionResult Create(Brand brand , IFormFile ImageFile)
+        public IActionResult Create(CreateBrandVM createBrandVM)
         {
-            if(ImageFile != null && ImageFile.Length > 0 )
+            if (!ModelState.IsValid)
             {
-                var fileName = _brandService.SaveFile(ImageFile);
+                return View(createBrandVM);
+            }
+            var brand = new Brand()
+            {
+                Name = createBrandVM.Name,
+                Description = createBrandVM.Description,
+                Status = createBrandVM.Status,
+                
+            };  
+            if(createBrandVM.ImageFile != null && createBrandVM.ImageFile.Length > 0 )
+            {
+                var fileName = _brandService.SaveFile(createBrandVM.ImageFile);
                 brand.Logo = fileName; 
             }
             _context.Brands.Add(brand);

@@ -1,4 +1,5 @@
-﻿<div class="container">
+﻿@model CreateBrandVM
+<div class="container">
     <div class="row mb-3 align-items-center my-3">
         <div class="col-md-6">
             <h2 class="display-6">Create new Brand</h2>
@@ -10,11 +11,14 @@
             <form method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input class="form-control" name="Name"/>
+                    <input class="form-control" name="Name" value="@Model.Name"/>
+                    <span class="text-danger" asp-validation-for="Name"></span>
                 </div>
                 <div class="mb-3">
                     <label for="name" class="form-label">Logo</label>
                     <input type="file" class="form-control" name="ImageFile" accept="image/*" />
+                    <span class="text-danger" asp-validation-for="ImageFile"></span>
+
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
@@ -23,6 +27,8 @@
                         <label for="description">You Description Here...</label>
 
                     </div>
+                    <span class="text-danger" asp-validation-for="Description"></span>
+
                 </div>
                 <div class="mb-3">
                     <label for="status" class="form-label">Status</label>
@@ -30,6 +36,8 @@
                         <option value="True" selected>Active</option>
                         <option value="False" >InActive</option>
                     </select>
+                    <span class="text-danger" asp-validation-for="Status"></span>
+
 
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>

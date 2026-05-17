@@ -36,11 +36,15 @@ namespace Ecommerce529.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View(); 
+            return View(new Category()); 
         }
         [HttpPost]
         public IActionResult Create(Category category)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(category);
+            }
             _context.Categories.Add(category);  
             _context.SaveChanges();
             //Response.Cookies.Append("Success_Notification" , "Category Careted Successfully");
@@ -60,6 +64,10 @@ namespace Ecommerce529.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Edit(Category category)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(category);  
+            }
             _context.Categories.Update(category);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));  

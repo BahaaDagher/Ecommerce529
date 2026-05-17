@@ -7,5 +7,6 @@
         public string? Description { get; set; }
         public string Logo { get; set; }
         public bool Status { get; set; }
+
     }
 }

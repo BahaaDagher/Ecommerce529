@@ -13,6 +13,7 @@
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
                     <input class="form-control" name="Name" value="@Model.Name" />
+                    <span class="text-danger" asp-validation-for="Name"></span>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
@@ -21,6 +22,8 @@
                         <label for="description">You Description Here...</label>
 
                     </div>
+                    <span class="text-danger" asp-validation-for="Description"></span>
+
                 </div>
                 <div class="mb-3">
                     <label for="status" class="form-label">Status</label>
@@ -36,6 +39,8 @@
                             <option value="False" selected>InActive</option>
                         }
                     </select>
+                    <span class="text-danger" asp-validation-for="Status"></span>
+
 
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
