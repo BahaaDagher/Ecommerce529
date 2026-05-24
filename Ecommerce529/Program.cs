@@ -1,3 +1,5 @@
+using Ecommerce529.Repositories;
+
 namespace Ecommerce529
 {
     public class Program
@@ -8,6 +10,14 @@ namespace Ecommerce529
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+
+            // Register
+            builder.Services.AddScoped<IRepository<Product> , Repository<Product>>();
+            builder.Services.AddScoped<IRepository<Category> , Repository<Category>>(); 
+            builder.Services.AddScoped<IRepository<Brand> , Repository<Brand>>(); 
+            builder.Services.AddScoped<IProductColorRepository , ProductColorRepository>(); 
+            builder.Services.AddScoped<IProductSubImageRepository , ProductSubImageRepository>(); 
 
             var app = builder.Build();
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Ecommerce529.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing.Constraints;
 
 namespace Ecommerce529.Areas.Admin.Controllers
@@ -6,16 +7,19 @@ namespace Ecommerce529.Areas.Admin.Controllers
     [Area(CD.ADMIN_AREA)]
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        //private readonly ApplicationDbContext _context;
+        private readonly Repository<Category> _categoryRepository;
 
         public CategoryController()
         {
-            _context = new ApplicationDbContext();
+            //_context = new ApplicationDbContext();
+            _categoryRepository = new Repository<Category>();
         }
 
-        public IActionResult Index(string categoryName , int page = 1  )
+        public async Task<IActionResult> Index(string categoryName , int page = 1  )
         {
-            var categories = _context.Categories.AsQueryable(); 
+            //var categories = _context.Categories.AsQueryable(); 
+            var categories = await _categoryRepository.GetAllAsync(); 
             //filter 
             if (categoryName != null)
             {
@@ -39,22 +43,25 @@ namespace Ecommerce529.Areas.Admin.Controllers
             return View(new Category()); 
         }
         [HttpPost]
-        public IActionResult Create(Category category)
+        public async Task<IActionResult> Create(Category category)
         {
             if (!ModelState.IsValid)
             {
                 return View(category);
             }
-            _context.Categories.Add(category);  
-            _context.SaveChanges();
+            //_context.Categories.Add(category);
+            await _categoryRepository.CreateAsync(category);
+            //_context.SaveChanges();
+            await _categoryRepository.CommitAsync();
             //Response.Cookies.Append("Success_Notification" , "Category Careted Successfully");
             TempData["Success_Notification"] = "Category Careted Successfully";  
             return RedirectToAction(nameof(Index));
         }
         [HttpGet]
-        public IActionResult Edit(int id )
+        public async Task<IActionResult> Edit(int id )
         {
-            var category = _context.Categories.FirstOrDefault(c=>c.Id == id); 
+            //var category = _context.Categories.FirstOrDefault(c=>c.Id == id); 
+            var category = await _categoryRepository.GetOneAsync(c => c.Id == id); 
             if (category is null )
             {
                 return NotFound(); 
@@ -62,25 +69,30 @@ namespace Ecommerce529.Areas.Admin.Controllers
             return View(category);
         }
         [HttpPost]
-        public IActionResult Edit(Category category)
+        public async Task<IActionResult> Edit(Category category)
         {
             if (!ModelState.IsValid)
             {
                 return View(category);  
             }
-            _context.Categories.Update(category);
-            _context.SaveChanges();
+            //_context.Categories.Update(category);
+            _categoryRepository.Update(category);
+            //_context.SaveChanges();
+            await _categoryRepository.CommitAsync();
             return RedirectToAction(nameof(Index));  
         }
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var category = _context.Categories.FirstOrDefault(c => c.Id == id);
+            //var category = _context.Categories.FirstOrDefault(c => c.Id == id);
+            var category = await _categoryRepository.GetOneAsync(c => c.Id == id);
+
             if (category is null)
             {
                 return NotFound();
             }
-            _context.Categories.Remove(category);
-            _context.SaveChanges();
+            _categoryRepository.Delete(category); 
+            //_context.SaveChanges();
+            await _categoryRepository.CommitAsync();
             return RedirectToAction(nameof(Index));
 
         }
