@@ -9,15 +9,15 @@ namespace Ecommerce529.Areas.Admin.Controllers
     public class BrandController : Controller
     {
         //private readonly ApplicationDbContext _context;
-        private readonly Repository<Brand> _brandRepository;
-        private readonly BrandService _brandService;
+        private readonly IRepository<Brand> _brandRepository;
 
-        public BrandController()
+        public BrandController(IRepository<Brand> brandRepository)
         {
-            //_context = new ApplicationDbContext();
-            _brandRepository = new Repository<Brand>(); 
-            _brandService = new BrandService() ;
+            _brandRepository = brandRepository;
         }
+
+        private readonly BrandService _brandService = new BrandService();
+
 
         public async Task<IActionResult> Index(string brandName , int page = 1  )
         {

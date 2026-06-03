@@ -8,12 +8,12 @@ namespace Ecommerce529.Areas.Admin.Controllers
     public class CategoryController : Controller
     {
         //private readonly ApplicationDbContext _context;
-        private readonly Repository<Category> _categoryRepository;
+        private readonly IRepository<Category> _categoryRepository;
 
-        public CategoryController()
+        public CategoryController(IRepository<Category> categoryRepository)
         {
             //_context = new ApplicationDbContext();
-            _categoryRepository = new Repository<Category>();
+            _categoryRepository = categoryRepository;  // = new OracleRepo<Category>();
         }
 
         public async Task<IActionResult> Index(string categoryName , int page = 1  )

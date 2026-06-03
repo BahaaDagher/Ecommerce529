@@ -8,9 +8,9 @@ namespace Ecommerce529.Areas.Customer.Controllers
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _context ;
-        public HomeController ()
+        public HomeController (ApplicationDbContext context)
         {
-            _context = new ApplicationDbContext();
+            _context = context; // = new ApplicationDbContext();
         }
         public IActionResult Index()
         {

@@ -10,9 +10,9 @@ namespace Ecommerce529.Repositories
         protected readonly ApplicationDbContext _context;
         private readonly DbSet<T> _dbSet;
 
-        public Repository()
+        public Repository(ApplicationDbContext context)
         {
-            _context = new ApplicationDbContext() ;
+            _context = context;// new ApplicationDbContext() ;
             _dbSet = _context.Set<T>(); 
         }
         public async Task<EntityEntry<T>> CreateAsync(T entity)

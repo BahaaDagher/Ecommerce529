@@ -1,4 +1,7 @@
+using Ecommerce529.LifeTime.ClassLifeTime;
+using Ecommerce529.LifeTime.InterfaceLifeTime;
 using Ecommerce529.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce529
 {
@@ -11,13 +14,25 @@ namespace Ecommerce529
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            var connectionString =
+                builder.Configuration.GetConnectionString("DefaultConnection")
+                    ?? throw new InvalidOperationException("Connection string"
+                    + "'DefaultConnection' not found.");
 
+            builder.Services.AddDbContext<ApplicationDbContext>(options => {
+                options.UseSqlServer(connectionString);
+            });
             // Register
+            // AddTransient  , AddScoped    ,  AddSingleton
             builder.Services.AddScoped<IRepository<Product> , Repository<Product>>();
             builder.Services.AddScoped<IRepository<Category> , Repository<Category>>(); 
             builder.Services.AddScoped<IRepository<Brand> , Repository<Brand>>(); 
             builder.Services.AddScoped<IProductColorRepository , ProductColorRepository>(); 
             builder.Services.AddScoped<IProductSubImageRepository , ProductSubImageRepository>(); 
+            // test LifeTime
+            builder.Services.AddTransient<ITransientInterface, TransientClass>(); 
+            builder.Services.AddScoped<IScopedInterface ,ScopedClass>(); 
+            builder.Services.AddSingleton<ISingletonInterface ,SingletonClass>(); 
 
             var app = builder.Build();
 
