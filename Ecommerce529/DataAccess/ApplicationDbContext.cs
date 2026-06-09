@@ -14,6 +14,8 @@ namespace Ecommerce529.DataAccess
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductSubImage> ProductSubImages { get; set; }
         public DbSet<ProductColor> ProductColors { get; set; }
+
+
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
         //    base.OnConfiguring(optionsBuilder);

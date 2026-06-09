@@ -37,5 +37,6 @@ namespace Ecommerce529.Areas.Customer.Controllers
                 singletonInterface2 = _singletonInterface2.Id,
             }); 
         }
+
     }
 }

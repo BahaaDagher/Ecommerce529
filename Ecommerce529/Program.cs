@@ -1,6 +1,8 @@
 using Ecommerce529.LifeTime.ClassLifeTime;
 using Ecommerce529.LifeTime.InterfaceLifeTime;
 using Ecommerce529.Repositories;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce529
@@ -22,13 +24,28 @@ namespace Ecommerce529
             builder.Services.AddDbContext<ApplicationDbContext>(options => {
                 options.UseSqlServer(connectionString);
             });
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedEmail = true;
+                //options.Lockout.DefaultLockoutTimeSpan = ;
+                //options.Lockout.MaxFailedAccessAttempts = 8;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+
             // Register
             // AddTransient  , AddScoped    ,  AddSingleton
             builder.Services.AddScoped<IRepository<Product> , Repository<Product>>();
             builder.Services.AddScoped<IRepository<Category> , Repository<Category>>(); 
             builder.Services.AddScoped<IRepository<Brand> , Repository<Brand>>(); 
             builder.Services.AddScoped<IProductColorRepository , ProductColorRepository>(); 
-            builder.Services.AddScoped<IProductSubImageRepository , ProductSubImageRepository>(); 
+            builder.Services.AddScoped<IProductSubImageRepository , ProductSubImageRepository>();
+            builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+
+
+
             // test LifeTime
             builder.Services.AddTransient<ITransientInterface, TransientClass>(); 
             builder.Services.AddScoped<IScopedInterface ,ScopedClass>(); 
@@ -52,7 +69,7 @@ namespace Ecommerce529
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{area=Admin}/{controller=Brand}/{action=Index}/{id?}")
+                pattern: "{area=Identity}/{controller=Account}/{action=Login}/{id?}")
                 .WithStaticAssets();
 
             app.Run();
