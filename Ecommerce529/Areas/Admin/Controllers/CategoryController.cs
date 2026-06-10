@@ -1,10 +1,12 @@
 ﻿using Ecommerce529.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing.Constraints;
 
 namespace Ecommerce529.Areas.Admin.Controllers
 {
     [Area(CD.ADMIN_AREA)]
+    [Authorize(Roles = $" {CD.SUPER_ADMIN_ROLE} , {CD.ADMIN_ROLE}  , {CD.EMPLOYEE_ROLE}")]
     public class CategoryController : Controller
     {
         //private readonly ApplicationDbContext _context;
@@ -57,6 +59,8 @@ namespace Ecommerce529.Areas.Admin.Controllers
             TempData["Success_Notification"] = "Category Careted Successfully";  
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = $" {CD.SUPER_ADMIN_ROLE} , {CD.ADMIN_ROLE}")]
+
         [HttpGet]
         public async Task<IActionResult> Edit(int id )
         {
@@ -68,6 +72,8 @@ namespace Ecommerce529.Areas.Admin.Controllers
             }
             return View(category);
         }
+        [Authorize(Roles = $" {CD.SUPER_ADMIN_ROLE} , {CD.ADMIN_ROLE}")]
+
         [HttpPost]
         public async Task<IActionResult> Edit(Category category)
         {
@@ -81,6 +87,8 @@ namespace Ecommerce529.Areas.Admin.Controllers
             await _categoryRepository.CommitAsync();
             return RedirectToAction(nameof(Index));  
         }
+        [Authorize(Roles = $" {CD.SUPER_ADMIN_ROLE} , {CD.ADMIN_ROLE}")]
+
         public async Task<IActionResult> Delete(int id)
         {
             //var category = _context.Categories.FirstOrDefault(c => c.Id == id);

@@ -1,0 +1,33 @@
+﻿@model Ecommerce529.ViewModels.VerifyOTPVM
+
+@{
+    ViewData["Title"] = "VerifyOTP";
+}
+
+<div class="container">
+    <h1>VerifyOTP</h1>
+
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="VerifyOTP">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="UserId" hidden />
+                <div class="form-group">
+                    <label asp-for="OTP" class="control-label"></label>
+                    <input asp-for="OTP" class="form-control" />
+                    <span asp-validation-for="OTP" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3">
+                    <input type="submit" value="VerifyOTP" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="ForgetPassword">ForgetPassword</a>
+    </div>
+
+</div>

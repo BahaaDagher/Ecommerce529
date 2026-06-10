@@ -1,15 +1,17 @@
 using Ecommerce529.LifeTime.ClassLifeTime;
 using Ecommerce529.LifeTime.InterfaceLifeTime;
 using Ecommerce529.Repositories;
+using Ecommerce529.Utilities.DbInitializer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Ecommerce529
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -38,10 +40,12 @@ namespace Ecommerce529
             // AddTransient  , AddScoped    ,  AddSingleton
             builder.Services.AddScoped<IRepository<Product> , Repository<Product>>();
             builder.Services.AddScoped<IRepository<Category> , Repository<Category>>(); 
+            builder.Services.AddScoped<IRepository<ApplicationUserOtp> , Repository<ApplicationUserOtp>>(); 
             builder.Services.AddScoped<IRepository<Brand> , Repository<Brand>>(); 
             builder.Services.AddScoped<IProductColorRepository , ProductColorRepository>(); 
             builder.Services.AddScoped<IProductSubImageRepository , ProductSubImageRepository>();
             builder.Services.AddTransient<IEmailSender, EmailSender>();
+            builder.Services.AddTransient<IDbInitializer, DbInitializer>();
 
 
 
@@ -49,10 +53,22 @@ namespace Ecommerce529
             // test LifeTime
             builder.Services.AddTransient<ITransientInterface, TransientClass>(); 
             builder.Services.AddScoped<IScopedInterface ,ScopedClass>(); 
-            builder.Services.AddSingleton<ISingletonInterface ,SingletonClass>(); 
+            builder.Services.AddSingleton<ISingletonInterface ,SingletonClass>();
+
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+            });
 
             var app = builder.Build();
 
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+                await dbInitializer.InitializeAsync();
+            }
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
@@ -69,7 +85,7 @@ namespace Ecommerce529
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{area=Identity}/{controller=Account}/{action=Login}/{id?}")
+                pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
             app.Run();
