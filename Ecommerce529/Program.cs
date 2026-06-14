@@ -42,6 +42,8 @@ namespace Ecommerce529
             builder.Services.AddScoped<IRepository<Category> , Repository<Category>>(); 
             builder.Services.AddScoped<IRepository<ApplicationUserOtp> , Repository<ApplicationUserOtp>>(); 
             builder.Services.AddScoped<IRepository<Brand> , Repository<Brand>>(); 
+            builder.Services.AddScoped<IRepository<Cart> , Repository<Cart>>(); 
+            builder.Services.AddScoped<IRepository<Promotion> , Repository<Promotion>>(); 
             builder.Services.AddScoped<IProductColorRepository , ProductColorRepository>(); 
             builder.Services.AddScoped<IProductSubImageRepository , ProductSubImageRepository>();
             builder.Services.AddTransient<IEmailSender, EmailSender>();
