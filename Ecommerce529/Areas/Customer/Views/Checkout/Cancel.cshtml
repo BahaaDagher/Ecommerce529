@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Payment Cancelled";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow border-0">
+                <div class="card-body text-center p-5">
+
+                    <div class="mb-4">
+                        <i class="bi bi-x-circle-fill text-danger"
+                           style="font-size:80px"></i>
+                    </div>
+
+                    <h2 class="text-danger fw-bold">
+                        Payment Cancelled
+                    </h2>
+
+                    <p class="text-muted mt-3">
+                        Your payment was cancelled.
+                        No charges were made to your account.
+                    </p>
+
+                    <a asp-area="Customer"
+                       asp-controller="Cart"
+                       asp-action="Index"
+                       class="btn btn-danger mt-3">
+                        Return To Cart
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

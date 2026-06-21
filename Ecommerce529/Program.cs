@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Stripe;
 
 namespace Ecommerce529
 {
@@ -38,10 +39,12 @@ namespace Ecommerce529
 
             // Register
             // AddTransient  , AddScoped    ,  AddSingleton
-            builder.Services.AddScoped<IRepository<Product> , Repository<Product>>();
+            builder.Services.AddScoped<IRepository<Models.Product> , Repository<Models.Product>>();
             builder.Services.AddScoped<IRepository<Category> , Repository<Category>>(); 
             builder.Services.AddScoped<IRepository<ApplicationUserOtp> , Repository<ApplicationUserOtp>>(); 
             builder.Services.AddScoped<IRepository<Brand> , Repository<Brand>>(); 
+            builder.Services.AddScoped<IRepository<Order> , Repository<Order>>(); 
+            builder.Services.AddScoped<IRepository<OrderItem> , Repository<OrderItem>>(); 
             builder.Services.AddScoped<IRepository<Cart> , Repository<Cart>>(); 
             builder.Services.AddScoped<IRepository<Promotion> , Repository<Promotion>>(); 
             builder.Services.AddScoped<IProductColorRepository , ProductColorRepository>(); 
@@ -63,6 +66,8 @@ namespace Ecommerce529
                 options.LoginPath = "/Identity/Account/Login";
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
             });
+
+            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
             var app = builder.Build();
 
